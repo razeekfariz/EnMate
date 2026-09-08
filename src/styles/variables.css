@@ -1,0 +1,62 @@
+:root {
+  /* Typography Families */
+  --font-primary: 'NeulisAlt', 'Neulis', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'NeulisAlt', 'Neulis', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-brand: 'Anokha', sans-serif; /* Reserved strictly for EnMate brand title */
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Theme Colors */
+  --bg-main: #05030a;
+  --bg-card: rgba(7, 4, 15, 0.6);
+  --primary: #ffffff;
+  --secondary: #d8c7d1;
+
+  /* Accent Colors */
+  --accent: #cf0466;
+  --accent-soft: #ff5aa0;
+  --accent-dark: #81046a;
+
+  /* Text Colors */
+  --text-main: #fdf7fb;
+  --text-muted: #b89aaa;
+  --text-light: #ffffff;
+
+  /* Gradients */
+  --gradient-color-1: #cf0466;
+  --gradient-color-2: #81046a;
+  --gradient-color-3: #ff2f92;
+
+  /* Glassmorphism & Cards */
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --nav-menu-mobile-bg: rgba(5, 3, 10, 0.96);
+  --badge-bg: rgba(255, 255, 255, 0.04);
+  --badge-border: rgba(255, 255, 255, 0.08);
+  --card-bg: rgba(7, 4, 15, 0.6);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  /* Process & Sections */
+  --process-watermark: rgba(255, 255, 255, 0.04);
+  --process-step-bg: rgba(7, 4, 15, 0.5);
+  --process-step-border: rgba(255, 255, 255, 0.05);
+  --cta-bg: rgba(7, 4, 15, 0.6);
+  --cta-border: rgba(255, 255, 255, 0.08);
+  --footer-bg: rgba(4, 2, 8, 0.92);
+  --footer-border: rgba(255, 255, 255, 0.05);
+
+  /* Buttons */
+  --btn-primary-start: #cf0466;
+  --btn-primary-end: #81046a;
+  --btn-primary-shadow: rgba(207, 4, 102, 0.4);
+  --btn-primary-shadow-hover: rgba(207, 4, 102, 0.6);
+  --btn-outline-border: rgba(255, 255, 255, 0.12);
+  --btn-outline-bg: rgba(255, 255, 255, 0.04);
+  --btn-outline-bg-hover: rgba(255, 255, 255, 0.08);
+  --btn-accent-start: #cf0466;
+  --btn-accent-end: #81046a;
+
+  /* Transitions */
+  --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.25s cubic-bezier(0.2, 1, 0.3, 1);
+}

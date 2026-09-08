@@ -1,0 +1,261 @@
+/* ==============================================================================
+   FONT CONFIGURATION & @FONT-FACE
+   Change font paths or font files below:
+   - Brand Font: Anokha (Strictly for "EnMate" brand title)
+   - Primary Fonts: Neulis & NeulisAlt (Available across all weights 100-900)
+   ============================================================================== */
+
+/* ─── 1. Brand Font: Anokha ─── */
+@font-face {
+  font-family: 'Anokha';
+  src: url('/fonts/Anokha.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── 2. Neulis (Upright 100-900) ─── */
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-Thin.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-ExtraLight.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-Light.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-Regular.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-Medium.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-SemiBold.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-Bold.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-ExtraBold.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-Black.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── 3. Neulis (Italics 100-900) ─── */
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-ThinItalic.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-ExtraLightItalic.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-ExtraLightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-LightItalic.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-Italic.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-MediumItalic.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-SemiBoldItalic.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-BoldItalic.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-ExtraBoldItalic.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neulis';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/Neulis-BlackItalic.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/Neulis-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── 4. NeulisAlt (Clean Modern Geometric Sans 100-900) ─── */
+@font-face {
+  font-family: 'NeulisAlt';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/NeulisAlt-Thin.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/NeulisAlt-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeulisAlt';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/NeulisAlt-ExtraLight.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/NeulisAlt-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeulisAlt';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/NeulisAlt-Light.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/NeulisAlt-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeulisAlt';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/NeulisAlt-Regular.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/NeulisAlt-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeulisAlt';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/NeulisAlt-Medium.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/NeulisAlt-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeulisAlt';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/NeulisAlt-SemiBold.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/NeulisAlt-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeulisAlt';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/NeulisAlt-Bold.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/NeulisAlt-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeulisAlt';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/NeulisAlt-ExtraBold.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/NeulisAlt-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeulisAlt';
+  src: url('/fonts/Neulis-Font-Package/fonts/woff2/NeulisAlt-Black.woff2') format('woff2'),
+       url('/fonts/Neulis-Font-Package/fonts/ttf/NeulisAlt-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}

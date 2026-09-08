@@ -1,0 +1,129 @@
+/* ==============================================================================
+   ANIMATIONS & SCROLL REVEAL
+   ============================================================================== */
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  filter: blur(10px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.stagger-1 { transition-delay: 0.05s; }
+.stagger-2 { transition-delay: 0.15s; }
+.stagger-3 { transition-delay: 0.25s; }
+.stagger-4 { transition-delay: 0.35s; }
+.stagger-5 { transition-delay: 0.45s; }
+.stagger-6 { transition-delay: 0.55s; }
+
+.word-reveal-wrap { display: inline-block; overflow: hidden; }
+.word-reveal {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%);
+  animation: wordUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes wordUp { 
+  to { opacity: 1; transform: translateY(0); } 
+}
+
+.hero-fade-in {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes badgeFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+
+@keyframes gradientMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ctaGradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.service-card.is-visible .icon { 
+  animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both; 
+}
+
+@keyframes iconPop {
+  0%   { transform: scale(0.4) rotate(-8deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Curtain Panel Effect */
+.service-card.reveal-on-scroll, .tilt-grid-card.reveal-on-scroll { 
+  opacity: 1; 
+  transform: none; 
+  filter: none; 
+}
+
+.service-card .curtain-panel, .tilt-grid-card .curtain-panel {
+  position: absolute; 
+  inset: 0; 
+  background: var(--bg-main); 
+  z-index: 20; 
+  transform: translateY(0%); 
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); 
+  pointer-events: none;
+}
+
+.service-card.is-visible .curtain-panel, .tilt-grid-card.is-visible .curtain-panel { 
+  transform: translateY(-100%); 
+}
+
+.service-card .card-content, .tilt-grid-card .card-content-wrapper {
+  transform: translateY(18px); 
+  opacity: 0; 
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, opacity 0.7s ease 0.25s;
+}
+
+.service-card.is-visible .card-content, .tilt-grid-card.is-visible .card-content-wrapper { 
+  transform: translateY(0); 
+  opacity: 1; 
+}
+
+@media (max-width: 768px), (hover: none), (pointer: coarse) {
+  .service-card .curtain-panel, .tilt-grid-card .curtain-panel {
+    display: none !important;
+  }
+
+  .service-card.reveal-on-scroll, .tilt-grid-card.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .service-card.reveal-on-scroll.is-visible, .tilt-grid-card.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .service-card .card-content, .tilt-grid-card .card-content-wrapper {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}

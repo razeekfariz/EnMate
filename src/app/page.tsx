@@ -125,7 +125,7 @@ export default function Home() {
                   { icon: 'fa-palette', title: 'Branding & Graphic Design', desc: 'Visual identity systems, logos, packaging, and marketing collateral that set your brand apart with a premium look.' },
                   { icon: 'fa-chart-line', title: 'Digital Marketing & Growth', desc: 'Social media management, SEO optimization, and data-driven ad campaigns focused on predictable client acquisition.' },
                   { icon: 'fa-video', title: 'Video & Creative Production', desc: 'Cinematic promotional video ads, social reels, and dynamic motion graphics designed for maximum engagement.' },
-                  { icon: 'fa-diagram-project', title: 'Business Systems & Portals', desc: 'Custom employee portals, internal CRM workflows, and automation structures engineered to streamline business operations.' },
+                  { icon: 'fa-diagram-project', title: 'Business Systems & Portals', desc: 'Custom team portals, internal CRM workflows, and automation structures engineered to streamline business operations.' },
                   { icon: 'fa-globe', title: 'Search Authority & Support', desc: 'Google Business Profile ranking, organic SEO dominance, and dedicated technical maintenance to keep you ahead.' }
                 ].map((srv, i) => (
                   <div 

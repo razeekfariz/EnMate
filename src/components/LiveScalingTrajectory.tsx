@@ -390,77 +390,63 @@ export default function LiveScalingTrajectory() {
     <section
       ref={sectionRef}
       id="live-scaling"
-      className="relative py-10 md:py-16 overflow-hidden bg-gradient-to-b from-[#05030a] via-[#080413] to-[#05030a] border-y border-white/5 text-left select-none"
+      className="relative py-6 md:py-12 select-none overflow-hidden text-left"
     >
-      {/* Ambient background atmosphere glow */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[450px] h-[450px] bg-[#cf0466]/8 rounded-full blur-[120px] pointer-events-none z-0" />
-      <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-[#8338ec]/8 rounded-full blur-[110px] pointer-events-none z-0" />
-
-      <div className="container relative z-10 space-y-6 md:space-y-8">
-        
-        {/* ─── COMPACT HEADER BADGE & TITLE ─── */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div className="space-y-1.5 max-w-[650px]">
-            <div className="flex items-center gap-2">
-              <span className="badge font-mono text-[10px] sm:text-xs inline-flex items-center gap-2 border-[var(--accent-soft)]/30 bg-[var(--accent)]/10 text-[var(--accent-soft)]">
-                <span className="w-2 h-2 rounded-full bg-[#ff2d8a] animate-ping" />
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ff2d8a] absolute" />
-                REAL-TIME VELOCITY ENGINE
-              </span>
-              <span className="text-[10px] sm:text-[11px] font-mono text-neutral-500 uppercase tracking-widest hidden sm:inline-block">
-                KOTTAKKAL → GLOBAL
-              </span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              Scaling Continuous Growth <span className="font-anokha gradient-text font-normal lowercase text-3xl sm:text-4xl md:text-5xl">Live.</span>
-            </h2>
-          </div>
-
-          <div className="hidden md:flex items-center gap-2 text-[11px] font-mono text-neutral-400 bg-white/[0.02] border border-white/5 px-3 py-1.5 rounded-full backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>SYNC: 40MS LATENCY</span>
-          </div>
-        </div>
-
-        {/* ─── SIDE-BY-SIDE ULTRA SECTION: CLOCK (LEFT) + CREATIVE GRAPH (RIGHT) ─── */}
+      <div className="container relative z-10">
+        {/* ─── SIDE-BY-SIDE CARDS: LIVE CLOCK (LEFT) + INTERACTIVE GROWTH TRAJECTORY (RIGHT) ─── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
           
           {/* ══════════════════════════════════════════════════
-              LEFT SIDE: ULTRA ANIMATED CHRONOMETER CLOCK
+              LEFT SIDE: DIGITAL MARKETING REAL-TIME SCALING CLOCK
               ══════════════════════════════════════════════════ */}
-          <div className="lg:col-span-5 flex flex-col justify-between p-5 sm:p-6 rounded-3xl bg-[#090515]/85 border border-white/10 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative overflow-hidden group">
-            {/* Background subtle radial flare */}
-            <div className="absolute -top-16 -left-16 w-44 h-44 bg-[#cf0466]/15 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-16 -right-16 w-44 h-44 bg-[#8338ec]/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="lg:col-span-5 flex flex-col justify-between p-5 sm:p-7 rounded-3xl bg-[#0a0618]/90 border border-white/10 backdrop-blur-2xl shadow-[0_16px_50px_rgba(0,0,0,0.6)] relative overflow-hidden group">
+            {/* Background subtle radial flares */}
+            <div className="absolute -top-20 -left-20 w-48 h-48 bg-[#cf0466]/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-20 -right-20 w-48 h-48 bg-[#8338ec]/15 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Top Clock HUD Header */}
-            <div className="flex items-center justify-between border-b border-white/5 pb-3 relative z-10">
-              <div className="flex items-center gap-2">
-                <i className="fas fa-satellite-dish text-[10px] text-[var(--accent-soft)] animate-pulse" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[var(--accent-soft)]">
-                  CHRONO TELEMETRY
+            {/* Top HUD Header */}
+            <div className="space-y-2 border-b border-white/5 pb-3.5 relative z-10">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff2d8a] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff2d8a]" />
+                  </span>
+                  <span className="text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-widest text-[var(--accent-soft)]">
+                    Live Growth Pulse
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-neutral-400 bg-white/5 px-2.5 py-0.5 rounded-full border border-white/5">
+                  {timeState.timeZoneName}
                 </span>
               </div>
-              <span className="text-[10px] font-mono text-neutral-400 bg-white/5 px-2 py-0.5 rounded-md border border-white/5">
-                {timeState.timeZoneName}
-              </span>
+
+              {/* In-Card Headline for Digital Marketing Agency */}
+              <div className="pt-1">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold text-white tracking-tight leading-tight">
+                  Scaling brands in this exact second.
+                </h3>
+                <p className="text-xs text-neutral-400 font-light mt-0.5 leading-relaxed">
+                  Real-time marketing engines, ad scalability pipelines, and conversion funnels operating 24/7.
+                </p>
+              </div>
             </div>
 
-            {/* Center Chronograph Dial & Animated Analog/Radar Core */}
+            {/* Center Chronograph Dial & Digital Readout */}
             <div className="py-4 flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-7 relative z-10">
               
-              {/* Ultra High-Tech Radar Clock Face */}
-              <div className="relative w-36 h-36 sm:w-40 sm:h-40 shrink-0 flex items-center justify-center">
+              {/* Radar Clock Face */}
+              <div className="relative w-32 h-32 sm:w-36 sm:h-36 shrink-0 flex items-center justify-center">
                 {/* Outer pulsing ring */}
-                <div className="absolute inset-0 rounded-full border border-white/10 shadow-[0_0_20px_rgba(207,4,102,0.1)]" />
+                <div className="absolute inset-0 rounded-full border border-white/10 shadow-[0_0_24px_rgba(207,4,102,0.12)]" />
                 
                 {/* Dashed outer orbital ring */}
                 <div className="absolute inset-1.5 rounded-full border border-dashed border-white/15 animate-[spin_60s_linear_infinite]" />
                 
-                {/* Gradient ring */}
+                {/* Gradient accent ring */}
                 <div className="absolute inset-3 rounded-full border border-[#cf0466]/30" />
 
-                {/* Dial Cardinal Ticks (12, 3, 6, 9) */}
+                {/* Dial Cardinal Ticks */}
                 <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-1 h-2 bg-white/60 rounded-full" />
                 <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-2 bg-white/30 rounded-full" />
                 <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-2 h-1 bg-white/30 rounded-full" />
@@ -478,19 +464,19 @@ export default function LiveScalingTrajectory() {
                 {/* Clock Hands */}
                 {/* Hour Hand */}
                 <div
-                  className="absolute w-1 h-10 bg-white/80 rounded-full origin-bottom bottom-1/2 left-[calc(50%-2px)] shadow-md"
+                  className="absolute w-1 h-8 bg-white/80 rounded-full origin-bottom bottom-1/2 left-[calc(50%-2px)] shadow-md"
                   style={{ transform: `rotate(${hourDeg}deg)` }}
                 />
 
                 {/* Minute Hand */}
                 <div
-                  className="absolute w-0.5 h-14 bg-white rounded-full origin-bottom bottom-1/2 left-[calc(50%-1px)] shadow-md"
+                  className="absolute w-0.5 h-12 bg-white rounded-full origin-bottom bottom-1/2 left-[calc(50%-1px)] shadow-md"
                   style={{ transform: `rotate(${minuteDeg}deg)` }}
                 />
 
                 {/* Sweeping Second Hand with Glowing Tip */}
                 <div
-                  className="absolute w-[1.5px] h-16 bg-[#ff2d8a] origin-bottom bottom-1/2 left-[calc(50%-0.75px)] shadow-[0_0_8px_#ff2d8a]"
+                  className="absolute w-[1.5px] h-14 bg-[#ff2d8a] origin-bottom bottom-1/2 left-[calc(50%-0.75px)] shadow-[0_0_8px_#ff2d8a]"
                   style={{ transform: `rotate(${secondDeg}deg)` }}
                 >
                   <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-white shadow-[0_0_8px_#ff2d8a]" />
@@ -502,8 +488,8 @@ export default function LiveScalingTrajectory() {
                 </div>
               </div>
 
-              {/* Digital High-Contrast Chronometer Readout */}
-              <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-1.5">
+              {/* Digital Chronometer Readout */}
+              <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-1">
                 <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400">
                   {timeState.formattedDate}
                 </span>
@@ -530,33 +516,33 @@ export default function LiveScalingTrajectory() {
 
                 <div className="flex items-center gap-1.5 pt-1 text-[10px] font-mono text-emerald-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                  <span>CORE ACTIVE · NOMINAL</span>
+                  <span>CAMPAIGN CHANNELS · ACTIVE</span>
                 </div>
               </div>
 
             </div>
 
-            {/* Bottom Clock Diagnostics Row */}
+            {/* Bottom Marketing Scale Status */}
             <div className="grid grid-cols-2 gap-2 pt-3 border-t border-white/5 relative z-10 text-[10px] font-mono text-neutral-400">
-              <div className="p-2 rounded-xl bg-white/[0.02] border border-white/5">
-                <span className="text-[9px] text-neutral-500 block uppercase">LATITUDE</span>
-                <span className="text-white font-bold">10.9985° N</span>
+              <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+                <span className="text-[9px] text-neutral-500 block uppercase">SCALING STATUS</span>
+                <span className="text-white font-bold">Continuous Execution</span>
               </div>
-              <div className="p-2 rounded-xl bg-white/[0.02] border border-white/5">
-                <span className="text-[9px] text-neutral-500 block uppercase">LONGITUDE</span>
-                <span className="text-white font-bold">75.9926° E</span>
+              <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/5">
+                <span className="text-[9px] text-neutral-500 block uppercase">SYSTEM HEALTH</span>
+                <span className="text-emerald-400 font-bold">100% Operational</span>
               </div>
             </div>
 
           </div>
 
           {/* ══════════════════════════════════════════════════
-              RIGHT SIDE: ANIMATED CREATIVE GRAPH STAGE
+              RIGHT SIDE: ANIMATED GROWTH TRAJECTORY STAGE
               ══════════════════════════════════════════════════ */}
           <div
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="lg:col-span-7 flex flex-col justify-between p-4 sm:p-6 rounded-3xl bg-[#070412]/90 border border-white/10 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative overflow-hidden group cursor-crosshair"
+            className="lg:col-span-7 flex flex-col justify-between p-5 sm:p-7 rounded-3xl bg-[#080415]/90 border border-white/10 backdrop-blur-2xl shadow-[0_16px_50px_rgba(0,0,0,0.6)] relative overflow-hidden group cursor-crosshair"
           >
             {/* Top Canvas Controls Bar */}
             <div className="flex flex-wrap items-center justify-between gap-2.5 pb-3 border-b border-white/5 relative z-20">
@@ -589,7 +575,7 @@ export default function LiveScalingTrajectory() {
                       : 'text-neutral-400 hover:text-white'
                   }`}
                 >
-                  Velocity
+                  ROI Surge
                 </button>
                 <button
                   type="button"
@@ -600,59 +586,59 @@ export default function LiveScalingTrajectory() {
                       : 'text-neutral-400 hover:text-white'
                   }`}
                 >
-                  Capacity
+                  Market Scale
                 </button>
               </div>
             </div>
 
-            {/* Dynamic Graph Canvas Canvas Display */}
-            <div className="relative w-full h-[180px] sm:h-[220px] md:h-[240px] my-2 overflow-hidden">
+            {/* Dynamic Graph Canvas Display */}
+            <div className="relative w-full h-[180px] sm:h-[210px] md:h-[230px] my-2 overflow-hidden">
               <canvas ref={canvasRef} className="w-full h-full block" />
 
-              {/* Apex Floating Coordinate Readout */}
+              {/* Peak Floating Coordinate Readout */}
               <div className="absolute top-2 right-2 pointer-events-none hidden sm:block text-right bg-black/60 p-2 rounded-xl border border-white/10 backdrop-blur-md">
                 <span className="text-[8px] font-mono uppercase tracking-widest text-[var(--accent-soft)] block font-bold">
-                  APEX VECTOR T+{timeState.milliseconds}
+                  PROJECTED MOMENTUM
                 </span>
                 <span className="text-xs font-bold font-mono text-white block">
-                  VELOCITY: +340.8%
+                  PEAK SCALE: +340% ROI
                 </span>
               </div>
 
               {/* Subtle hover prompt */}
               <div className="absolute bottom-2 left-2 pointer-events-none hidden sm:flex items-center gap-1.5 text-[9px] font-mono text-neutral-500 bg-black/40 px-2 py-1 rounded-lg border border-white/5 backdrop-blur-sm">
                 <i className="fas fa-wave-square text-[var(--accent-soft)] text-[8px]" />
-                <span>Hover to deflect harmonic curve</span>
+                <span>Interactive Growth Simulation</span>
               </div>
             </div>
 
-            {/* Bottom 3 Metrics Telemetry Cards & CTA */}
+            {/* Bottom 3 Metrics Cards & CTA */}
             <div className="space-y-3 pt-3 border-t border-white/5 relative z-20">
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-0.5">
                   <span className="text-[8px] sm:text-[9px] font-mono uppercase text-neutral-400 block truncate">
-                    Code Architecture
+                    Average ROI Scale
                   </span>
                   <div className="text-xs sm:text-sm font-bold font-mono text-white">
-                    100% <span className="text-[9px] text-[var(--accent-soft)] font-normal">Custom</span>
+                    +340<span className="text-[9px] text-[var(--accent-soft)] font-normal">% Return</span>
                   </div>
                 </div>
 
                 <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-0.5">
                   <span className="text-[8px] sm:text-[9px] font-mono uppercase text-neutral-400 block truncate">
-                    Edge Latency
+                    Lead Acquisition
                   </span>
                   <div className="text-xs sm:text-sm font-bold font-mono text-white">
-                    &lt;42<span className="text-[9px] text-[var(--accent-soft)] font-normal">ms</span>
+                    4.8<span className="text-[9px] text-[var(--accent-soft)] font-normal">x Multiplier</span>
                   </div>
                 </div>
 
                 <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-0.5">
                   <span className="text-[8px] sm:text-[9px] font-mono uppercase text-neutral-400 block truncate">
-                    Revenue Velocity
+                    Campaign Uptime
                   </span>
                   <div className="text-xs sm:text-sm font-bold font-mono text-white">
-                    +340<span className="text-[9px] text-[var(--accent-soft)] font-normal">%</span>
+                    24/7 <span className="text-[9px] text-[var(--accent-soft)] font-normal">Global</span>
                   </div>
                 </div>
               </div>
@@ -660,7 +646,7 @@ export default function LiveScalingTrajectory() {
               {/* Action Buttons */}
               <div className="flex items-center justify-between gap-3 pt-1">
                 <span className="text-[10px] text-neutral-400 font-light hidden sm:inline-block">
-                  Ready to deploy high-velocity digital scaling?
+                  Ready to accelerate your brand&apos;s digital revenue?
                 </span>
                 <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
                   <a
@@ -670,14 +656,14 @@ export default function LiveScalingTrajectory() {
                     className="btn btn-primary text-[10px] sm:text-xs uppercase tracking-wider font-bold py-2 px-3.5"
                   >
                     <div className="btn-glow-layer" />
-                    <span className="btn-content-nodes">Deploy With Us</span>
+                    <span className="btn-content-nodes">Scale Your Brand</span>
                   </a>
                   <Link
                     href="/services"
                     className="btn btn-outline text-[10px] sm:text-xs uppercase tracking-wider font-bold py-2 px-3.5"
                   >
                     <div className="btn-glow-layer" />
-                    <span className="btn-content-nodes">Services</span>
+                    <span className="btn-content-nodes">Our Services</span>
                   </Link>
                 </div>
               </div>

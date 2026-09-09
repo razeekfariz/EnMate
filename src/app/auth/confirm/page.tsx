@@ -33,10 +33,10 @@ export default function AuthConfirm() {
 
       if (error) throw error;
 
-      setMessage('Password saved successfully! Redirecting to workspace...');
+      setMessage('Password saved successfully! Redirecting to Management Portal...');
       setTimeout(() => {
-        router.push('/admin/blog');
-      }, 2000);
+        router.push('/admin');
+      }, 1500);
     } catch (err: any) {
       setMessage(`Setup Failed: ${err?.message || 'Unknown error'}`);
     } finally {

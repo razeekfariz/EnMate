@@ -1,0 +1,43 @@
+{
+  "name": "EnMate Management Portal",
+  "short_name": "EnMate Admin",
+  "description": "Enterprise Management and Content Publishing Studio for EnMate Digital Marketing Agency",
+  "start_url": "/admin",
+  "scope": "/admin",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#05030a",
+  "theme_color": "#090515",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Publish Blog",
+      "url": "/admin?tab=blog",
+      "description": "Publish and optimize articles"
+    },
+    {
+      "name": "Portfolio Manager",
+      "url": "/admin?tab=portfolio",
+      "description": "Manage portfolio projects"
+    },
+    {
+      "name": "AI Packages",
+      "url": "/admin?tab=ai_packages",
+      "description": "Configure AI packages and pricing"
+    }
+  ]
+}

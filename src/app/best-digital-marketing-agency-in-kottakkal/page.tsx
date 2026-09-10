@@ -19,7 +19,7 @@ export default function KottakkalLocalPage() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const whatsappUrl = "https://wa.me/918075186078?text=Hi%20👋,%20I%20found%20EnMate%20on%20Google.%20We%20need%20the%20best%20digital%20marketing%20services%20in%20Kottakkal.";
+  const whatsappUrl = `https://wa.me/918075186078?text=${encodeURIComponent("Hi 👋, I found EnMate on Google. We need the best digital marketing services in Kottakkal.")}`;
 
   return (
     <div className="min-h-screen w-full bg-cover bg-fixed bg-center bg-no-repeat bg-[url('/images/bg-images/home-mobile-bg.webp')] md:bg-[url('/images/bg-images/home-lap-bg.webp')]">

@@ -25,7 +25,7 @@ export default function AgencyConnectPortal() {
     };
   }, []);
 
-  const whatsappUrl = "https://wa.me/918075186078?text=Hi%20,%20I%20found%20EnMate%20online.%20I%20want%20to%20scale%20our%20business%20with%20your%20digital%20marketing%20services.";
+  const whatsappUrl = `https://wa.me/918075186078?text=${encodeURIComponent("Hi 👋, I found EnMate online. I want to scale our business with your digital marketing services.")}`;
   const mailUrl = "mailto:contact@enmate.in?subject=Agency%20Inquiry%20-%20Scaling%20Operations";
   const phoneUrl = "tel:+918075186078";
   const reviewUrl = "https://g.page/r/CYquQCQPPkByEAI/review"; 

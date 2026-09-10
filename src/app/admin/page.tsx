@@ -4,9 +4,11 @@ import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '../../lib/supabase';
+import AIPackageManager from '@/components/admin/AIPackageManager';
+import { processPastedContent } from '@/lib/blog-cleaner';
 
 // Types
-type TabType = 'overview' | 'blog' | 'portfolio' | 'taxonomy';
+type TabType = 'overview' | 'blog' | 'portfolio' | 'taxonomy' | 'ai_packages';
 
 interface Category {
   id: string;
@@ -67,6 +69,11 @@ function ManagementPortalContent() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userEmail, setUserEmail] = useState<string>('');
   const [authChecking, setAuthChecking] = useState<boolean>(true);
+
+  // Scoped Management App (PWA) State
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isStandalone, setIsStandalone] = useState<boolean>(false);
+  const [showInstallModal, setShowInstallModal] = useState<boolean>(false);
 
   // Data Collections
   const [categories, setCategories] = useState<Category[]>([]);
@@ -161,7 +168,43 @@ function ManagementPortalContent() {
       }
     };
     verifySession();
+
+    // Check standalone PWA mode
+    const isStandaloneMode =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as any).standalone === true ||
+      document.referrer.includes('android-app://');
+    setIsStandalone(Boolean(isStandaloneMode));
+
+    // Register admin-scoped service worker
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+      navigator.serviceWorker
+        .register('/admin-sw.js', { scope: '/admin' })
+        .catch((err) => console.log('Admin SW note:', err));
+    }
+
+    // Capture native PWA install prompt
+    const handleBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
   }, [router]);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
+      if (choiceResult && choiceResult.outcome === 'accepted') {
+        setDeferredPrompt(null);
+        setIsStandalone(true);
+      }
+    } else {
+      setShowInstallModal(true);
+    }
+  };
 
   // Sync tab change with URL parameter
   const switchTab = (tab: TabType) => {
@@ -284,21 +327,94 @@ function ManagementPortalContent() {
     return Math.max(1, Math.ceil(words / 220));
   };
 
-  const handleToolbarFormat = (tag: string) => {
+  // Enhanced Rich Text Editor Format & Paste Handlers
+  const handleFormatCommand = (command: string, value: string | undefined = undefined) => {
+    if (!blogEditorRef.current) return;
+    blogEditorRef.current.focus();
+    document.execCommand(command, false, value);
+    setBlogForm(prev => ({ ...prev, content: blogEditorRef.current?.innerHTML || '' }));
+  };
+
+  const handleHeadingFormat = (headingTag: 'h2' | 'h3' | 'h4' | 'p' | 'blockquote') => {
+    if (!blogEditorRef.current) return;
+    blogEditorRef.current.focus();
+    document.execCommand('formatBlock', false, `<${headingTag}>`);
+    setBlogForm(prev => ({ ...prev, content: blogEditorRef.current?.innerHTML || '' }));
+  };
+
+  const handleHighlightFormat = () => {
+    if (!blogEditorRef.current) return;
+    blogEditorRef.current.focus();
     const selection = window.getSelection();
-    if (!selection || !selection.rangeCount) return;
+    if (!selection || selection.rangeCount === 0) return;
+
     const range = selection.getRangeAt(0);
     const selectedText = range.toString();
+    if (!selectedText) {
+      alert('Select the text you wish to highlight first.');
+      return;
+    }
 
-    if (selectedText.length > 0) {
-      const element = document.createElement(tag);
-      element.textContent = selectedText;
-      range.deleteContents();
-      range.insertNode(element);
+    const parent = selection.anchorNode?.parentElement;
+    if (parent && (parent.tagName === 'MARK' || parent.classList.contains('blog-highlight'))) {
+      const textNode = document.createTextNode(parent.textContent || '');
+      parent.replaceWith(textNode);
     } else {
-      const element = document.createElement(tag);
-      element.innerHTML = '&#8203;';
-      range.insertNode(element);
+      const mark = document.createElement('mark');
+      mark.className = 'blog-highlight';
+      mark.textContent = selectedText;
+      range.deleteContents();
+      range.insertNode(mark);
+    }
+    setBlogForm(prev => ({ ...prev, content: blogEditorRef.current?.innerHTML || '' }));
+  };
+
+  const handleInsertCallout = () => {
+    if (!blogEditorRef.current) return;
+    blogEditorRef.current.focus();
+    const selection = window.getSelection();
+    const selectedText = selection?.toString() || 'Enter strategic key takeaway or valuable insight here.';
+    const calloutHTML = `<div class="blog-callout"><strong>💡 Key Strategic Insight:</strong> ${selectedText}</div><p><br></p>`;
+    document.execCommand('insertHTML', false, calloutHTML);
+    setBlogForm(prev => ({ ...prev, content: blogEditorRef.current?.innerHTML || '' }));
+  };
+
+  const handleInsertLink = () => {
+    if (!blogEditorRef.current) return;
+    const url = prompt('Enter target URL or link (e.g. https://enmate.in/services):');
+    if (!url) return;
+    blogEditorRef.current.focus();
+    document.execCommand('createLink', false, url);
+    setBlogForm(prev => ({ ...prev, content: blogEditorRef.current?.innerHTML || '' }));
+  };
+
+  const handleInsertDivider = () => {
+    if (!blogEditorRef.current) return;
+    blogEditorRef.current.focus();
+    document.execCommand('insertHorizontalRule', false);
+    setBlogForm(prev => ({ ...prev, content: blogEditorRef.current?.innerHTML || '' }));
+  };
+
+  const handlePasteBlogContent = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const cleanHTML = processPastedContent(e.clipboardData);
+    if (!cleanHTML) return;
+
+    if (document.queryCommandSupported && document.queryCommandSupported('insertHTML')) {
+      document.execCommand('insertHTML', false, cleanHTML);
+    } else {
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = cleanHTML;
+        const fragment = document.createDocumentFragment();
+        while (tempDiv.firstChild) {
+          fragment.appendChild(tempDiv.firstChild);
+        }
+        range.insertNode(fragment);
+      }
     }
 
     if (blogEditorRef.current) {
@@ -832,8 +948,29 @@ function ManagementPortalContent() {
             </h1>
           </div>
 
-          {/* Quick Links & Sign Out */}
+          {/* Quick Links, App Install & Sign Out */}
           <div className="flex items-center gap-2.5 flex-wrap">
+            {/* PWA App Installation / Mode Badge */}
+            {isStandalone ? (
+              <div
+                title="Running in Standalone Management App Mode"
+                className="px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono inline-flex items-center gap-2"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <i className="fas fa-desktop text-[11px]" />
+                <span>App Mode</span>
+              </div>
+            ) : (
+              <button
+                onClick={handleInstallClick}
+                title="Install Management Portal as Standalone Desktop / Mobile App"
+                className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[var(--accent)]/30 to-[#8338ec]/30 hover:from-[var(--accent)] hover:to-[#8338ec] border border-[var(--accent)]/50 text-white text-xs font-mono transition-all inline-flex items-center gap-2 shadow-[0_0_15px_rgba(207,4,102,0.25)] group"
+              >
+                <i className="fas fa-download text-[10px] group-hover:translate-y-0.5 transition-transform" />
+                <span>Install Portal App</span>
+              </button>
+            )}
+
             <Link
               href="/"
               target="_blank"
@@ -908,6 +1045,18 @@ function ManagementPortalContent() {
             <i className="fas fa-tags text-xs" />
             <span>Taxonomy & Tags</span>
           </button>
+
+          <button
+            onClick={() => switchTab('ai_packages')}
+            className={`px-4 py-2.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 shrink-0 ${
+              activeTab === 'ai_packages'
+                ? 'bg-gradient-to-r from-[var(--accent)] to-[#8338ec] text-white shadow-[0_0_20px_rgba(207,4,102,0.4)]'
+                : 'bg-white/[0.03] hover:bg-white/[0.06] text-neutral-400 hover:text-white border border-white/5'
+            }`}
+          >
+            <i className="fas fa-sparkles text-xs text-[var(--accent-soft)]" />
+            <span>EnMate AI & Packages</span>
+          </button>
         </nav>
 
         {/* ─── 3. TAB CONTENT ─── */}
@@ -970,7 +1119,7 @@ function ManagementPortalContent() {
                   <div className="text-sm font-bold text-white truncate">{userEmail}</div>
                   <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1 mt-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    Supabase Active Sync
+                    Cloud Core Synchronized
                   </span>
                 </div>
               </div>
@@ -1218,21 +1367,163 @@ function ManagementPortalContent() {
                   </div>
 
                   {/* Formatting Toolbar */}
-                  <div className="flex flex-wrap items-center gap-1.5 p-2 bg-black/40 border border-white/10 rounded-t-xl">
-                    <button type="button" onClick={() => handleToolbarFormat('h2')} className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-xs font-mono text-white font-bold">H2</button>
-                    <button type="button" onClick={() => handleToolbarFormat('h3')} className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-xs font-mono text-white font-bold">H3</button>
-                    <button type="button" onClick={() => handleToolbarFormat('strong')} className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-xs font-bold text-white">B</button>
-                    <button type="button" onClick={() => handleToolbarFormat('em')} className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-xs italic text-white">I</button>
-                    <button type="button" onClick={() => handleToolbarFormat('blockquote')} className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-xs font-mono text-white">Quote</button>
-                    <button type="button" onClick={() => handleToolbarFormat('p')} className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-xs font-mono text-white">Paragraph</button>
+                  <div className="p-2.5 bg-black/70 border border-white/10 rounded-t-2xl flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {/* Headings */}
+                      <button
+                        type="button"
+                        onClick={() => handleHeadingFormat('h2')}
+                        title="Main Heading (H2 Section)"
+                        className="px-2.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs font-mono font-bold text-white transition-all border border-white/5 flex items-center gap-1"
+                      >
+                        <span>H2</span>
+                        <span className="hidden sm:inline text-[10px] font-normal text-neutral-400">Main</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleHeadingFormat('h3')}
+                        title="Subheading (H3 Subsection)"
+                        className="px-2.5 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs font-mono font-bold text-white transition-all border border-white/5 flex items-center gap-1"
+                      >
+                        <span>H3</span>
+                        <span className="hidden sm:inline text-[10px] font-normal text-neutral-400">Sub</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleHeadingFormat('h4')}
+                        title="Minor Heading (H4)"
+                        className="px-2 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs font-mono font-bold text-neutral-300 transition-all border border-white/5"
+                      >
+                        H4
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleHeadingFormat('p')}
+                        title="Standard Paragraph (P)"
+                        className="px-2 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs font-mono text-neutral-300 transition-all border border-white/5"
+                      >
+                        P
+                      </button>
+
+                      <div className="w-[1px] h-5 bg-white/10 mx-0.5" />
+
+                      {/* Formatting */}
+                      <button
+                        type="button"
+                        onClick={() => handleFormatCommand('bold')}
+                        title="Bold Text"
+                        className="w-7 h-7 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs font-bold text-white transition-all border border-white/5 flex items-center justify-center"
+                      >
+                        <i className="fas fa-bold" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleFormatCommand('italic')}
+                        title="Italic Text"
+                        className="w-7 h-7 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs italic text-white transition-all border border-white/5 flex items-center justify-center"
+                      >
+                        <i className="fas fa-italic" />
+                      </button>
+
+                      {/* Highlight Tool */}
+                      <button
+                        type="button"
+                        onClick={handleHighlightFormat}
+                        title="Highlight Text (Glowing Callout Accent)"
+                        className="px-2.5 py-1.5 rounded-xl bg-[var(--accent)]/20 hover:bg-[var(--accent)]/35 text-[var(--accent-soft)] hover:text-white text-xs font-mono font-semibold transition-all border border-[var(--accent)]/40 flex items-center gap-1.5"
+                      >
+                        <i className="fas fa-highlighter text-[11px]" />
+                        <span>Highlight</span>
+                      </button>
+
+                      <div className="w-[1px] h-5 bg-white/10 mx-0.5" />
+
+                      {/* Lists */}
+                      <button
+                        type="button"
+                        onClick={() => handleFormatCommand('insertUnorderedList')}
+                        title="Bullet List"
+                        className="w-7 h-7 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs text-white transition-all border border-white/5 flex items-center justify-center"
+                      >
+                        <i className="fas fa-list-ul" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleFormatCommand('insertOrderedList')}
+                        title="Numbered List"
+                        className="w-7 h-7 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs text-white transition-all border border-white/5 flex items-center justify-center"
+                      >
+                        <i className="fas fa-list-ol" />
+                      </button>
+
+                      {/* Quotes & Callouts */}
+                      <button
+                        type="button"
+                        onClick={() => handleHeadingFormat('blockquote')}
+                        title="Blockquote"
+                        className="w-7 h-7 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs text-white transition-all border border-white/5 flex items-center justify-center"
+                      >
+                        <i className="fas fa-quote-left text-[11px]" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleInsertCallout}
+                        title="Insert Key Strategic Callout Box"
+                        className="px-2 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 text-purple-300 hover:text-white text-xs font-mono transition-all border border-purple-500/30 flex items-center gap-1"
+                      >
+                        <i className="fas fa-lightbulb text-[10px]" />
+                        <span className="hidden md:inline">Callout</span>
+                      </button>
+
+                      {/* Link & Divider */}
+                      <button
+                        type="button"
+                        onClick={handleInsertLink}
+                        title="Insert Link"
+                        className="w-7 h-7 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs text-neutral-300 hover:text-white transition-all border border-white/5 flex items-center justify-center"
+                      >
+                        <i className="fas fa-link text-[11px]" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleInsertDivider}
+                        title="Insert Horizontal Divider"
+                        className="w-7 h-7 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs text-neutral-300 hover:text-white transition-all border border-white/5 flex items-center justify-center"
+                      >
+                        <i className="fas fa-minus text-[11px]" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleFormatCommand('removeFormat')}
+                        title="Clear Formatting"
+                        className="w-7 h-7 rounded-xl bg-white/[0.06] hover:bg-white/[0.14] text-xs text-neutral-400 hover:text-white transition-all border border-white/5 flex items-center justify-center"
+                      >
+                        <i className="fas fa-eraser text-[11px]" />
+                      </button>
+                    </div>
+
+                    {/* Auto-Paste Clean Badge */}
+                    <span className="text-[10px] font-mono text-neutral-400 hidden xl:flex items-center gap-1 opacity-80">
+                      <i className="fas fa-wand-magic-sparkles text-[var(--accent-soft)]" />
+                      <span>ChatGPT & Markdown Paste Ready</span>
+                    </span>
                   </div>
 
-                  {/* Editable Canvas */}
+                  {/* Editable Canvas with Universal Paste Normalizer */}
                   <div
                     ref={blogEditorRef}
                     contentEditable
                     onInput={(e) => setBlogForm(p => ({ ...p, content: (e.target as HTMLElement).innerHTML }))}
-                    className="min-h-[220px] max-h-[450px] overflow-y-auto bg-black/60 border border-white/10 border-t-0 rounded-b-xl p-4 text-sm text-white leading-relaxed focus:outline-none focus:border-[var(--accent)]"
+                    onPaste={handlePasteBlogContent}
+                    className="blog-rich-surface min-h-[300px] max-h-[600px] overflow-y-auto bg-[#070312]/80 border border-white/10 border-t-0 rounded-b-2xl p-5 text-sm text-neutral-200 leading-relaxed focus:outline-none focus:border-[var(--accent)]"
                   />
                 </div>
 
@@ -1973,6 +2264,89 @@ function ManagementPortalContent() {
               </div>
             </div>
 
+          </div>
+        )}
+
+        {/* ========================================================= */}
+        {/* TAB 5: ENMATE AI & STRUCTURED PACKAGES                     */}
+        {/* ========================================================= */}
+        {activeTab === 'ai_packages' && (
+          <AIPackageManager />
+        )}
+
+        {/* ─── PWA INSTALLATION GUIDANCE MODAL ─── */}
+        {showInstallModal && (
+          <div className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="bg-[#0c061a] border border-[var(--accent)]/40 rounded-3xl p-6 max-w-md w-full shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_30px_rgba(207,4,102,0.3)] space-y-5 animate-scaleUp text-white">
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-[#090515] border border-[var(--accent)]/50 p-1.5 flex items-center justify-center shadow-[0_0_15px_rgba(207,4,102,0.4)]">
+                    <img src="/logos/site-logo.png" alt="EnMate Admin App" className="w-full h-full object-contain" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold font-mono text-white">Install Management Portal</h3>
+                    <p className="text-[11px] text-neutral-400">Standalone App for EnMate Team</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowInstallModal(false)}
+                  className="w-7 h-7 rounded-xl bg-white/[0.05] hover:bg-white/[0.12] text-neutral-400 hover:text-white flex items-center justify-center text-xs transition-all"
+                >
+                  <i className="fas fa-xmark" />
+                </button>
+              </div>
+
+              <div className="space-y-3.5 text-xs text-neutral-300 font-sans">
+                <p className="leading-relaxed">
+                  Install the <strong className="text-white font-mono">EnMate Management Portal</strong> on your device for instant 1-click desktop & mobile access without browser chrome.
+                </p>
+
+                <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+                  <div className="flex items-start gap-2.5">
+                    <i className="fas fa-laptop text-[var(--accent-soft)] mt-0.5" />
+                    <div>
+                      <strong className="text-white block text-[11px]">Chrome / Edge (Desktop):</strong>
+                      <span className="text-[11px] text-neutral-400">
+                        Click the <strong>Install icon</strong> (computer with arrow) in your browser address bar at the top right.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+                  <div className="flex items-start gap-2.5">
+                    <i className="fab fa-apple text-neutral-200 mt-0.5" />
+                    <div>
+                      <strong className="text-white block text-[11px]">iPhone / iPad (Safari):</strong>
+                      <span className="text-[11px] text-neutral-400">
+                        Tap the <strong>Share</strong> button <i className="fas fa-arrow-up-from-bracket text-[10px] mx-1" /> and select <strong>&quot;Add to Home Screen&quot;</strong>.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+                  <div className="flex items-start gap-2.5">
+                    <i className="fab fa-android text-emerald-400 mt-0.5" />
+                    <div>
+                      <strong className="text-white block text-[11px]">Android (Chrome):</strong>
+                      <span className="text-[11px] text-neutral-400">
+                        Tap the 3 dots menu <i className="fas fa-ellipsis-vertical text-[10px] mx-1" /> and select <strong>&quot;Install app&quot;</strong> or <strong>&quot;Add to Home screen&quot;</strong>.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2 flex justify-end">
+                <button
+                  onClick={() => setShowInstallModal(false)}
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[var(--accent)] to-[#8338ec] text-white text-xs font-semibold font-mono shadow-md hover:opacity-90 transition-all"
+                >
+                  Got It
+                </button>
+              </div>
+            </div>
           </div>
         )}
 

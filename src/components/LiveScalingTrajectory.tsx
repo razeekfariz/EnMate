@@ -379,7 +379,7 @@ export default function LiveScalingTrajectory() {
   }, []);
 
   const whatsappUrl =
-    'https://wa.me/918075186078?text=Hi%20👋,%20I%20saw%20EnMate%27s%20live%20scaling%20system.%20We%20want%20to%20scale%20our%20business%20growth%20right%20now.';
+    `https://wa.me/918075186078?text=${encodeURIComponent("Hi 👋, I saw EnMate's live scaling system. We want to scale our business growth right now.")}`;
 
   // Calculate radar clock angles
   const secondDeg = timeState.secondRatio * 360;

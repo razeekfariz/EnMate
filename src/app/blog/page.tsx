@@ -36,7 +36,7 @@ export default async function BlogListingPage() {
   if (databaseError) {
     return (
       <div className="min-h-screen bg-[#05030a] flex items-center justify-center text-[var(--text-muted)] font-mono text-xs">
-        <p>System error: Failed to map backend content registry rows. Verify cloud connectivity constraints.</p>
+        <p>Insights temporarily unavailable. Please refresh in a moment.</p>
       </div>
     );
   }
@@ -56,7 +56,7 @@ export default async function BlogListingPage() {
         </header>
 
         {posts.length === 0 ? (
-          <p className="text-left font-mono text-xs text-[var(--text-muted)] italic">No articles published yet inside core database rows.</p>
+          <p className="text-left font-mono text-xs text-[var(--text-muted)] italic">No publications available at this moment. Check back soon for new insights.</p>
         ) : (
           <BlogListingClient initialPosts={posts} />
         )}

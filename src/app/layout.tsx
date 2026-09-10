@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import WholeCursor from '../components/WholeCursor'; 
+import FloatingAssistant from '../components/ai/FloatingAssistant';
 
 import '../styles/variables.css';
 import '../styles/fonts.css';
@@ -37,7 +38,6 @@ export const metadata: Metadata = {
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
-  manifest: '/site.webmanifest',
 };
 
 export default function RootLayout({
@@ -59,6 +59,7 @@ export default function RootLayout({
         <div className="flex-grow">
           {children}
         </div>
+        <FloatingAssistant />
         <Footer />
       </body>
     </html>

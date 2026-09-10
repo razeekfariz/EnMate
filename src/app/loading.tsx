@@ -25,10 +25,10 @@ export default function GlobalWorkspaceLoading() {
         {/* ─── TECHNICAL TRACKING METRIC PROSE TEXT ─── */}
         <div className="space-y-1">
           <h4 className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-white/90">
-            Synchronizing Matrix
+            EnMate Intelligence
           </h4>
-          <p className="text-[9px] font-mono tracking-widest text-[var(--text-muted)] opacity-60 uppercase">
-            Fetching secure database rows...
+          <p className="text-[9px] font-mono tracking-widest text-[var(--text-muted)] opacity-70 uppercase">
+            Loading digital performance systems...
           </p>
         </div>
 

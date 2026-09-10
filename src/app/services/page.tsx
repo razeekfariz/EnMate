@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function ServicesIndexPage() {
   const serviceList = Object.entries(services);
-  const whatsappUrl = "https://wa.me/918075186078?text=Hi%20👋,%20I%20found%20EnMate%20online.%20I%20want%20to%20scale%20our%20business%20with%20the%20best%20digital%20marketing%20services.";
+  const whatsappUrl = `https://wa.me/918075186078?text=${encodeURIComponent("Hi 👋, I found EnMate online. I want to scale our business with the best digital marketing services.")}`;
 
   const jsonLd = {
     "@context": "https://schema.org",

@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 
 export default function AboutPage() {
-  const whatsappUrl = "https://wa.me/918075186078?text=Hi%20👋,%20I%20read%20the%20EnMate%20organization%20profile.%20I%20want%20to%20partner%20with%20your%20team.";
+  const whatsappUrl = `https://wa.me/918075186078?text=${encodeURIComponent("Hi 👋, I read the EnMate organization profile. I want to partner with your team.")}`;
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -195,7 +195,7 @@ export default function AboutPage() {
                   <i className="fas fa-palette text-xs text-[var(--accent-soft)]"></i>
                 </div>
                 <div>
-                  <p className="text-[10px] text-[var(--accent-soft)] font-mono uppercase tracking-wider">Head of Creative</p>
+                  <p className="text-[10px] text-[var(--accent-soft)] font-mono uppercase tracking-wider">Creative Director</p>
                   <p className="text-xs sm:text-sm text-[var(--text-muted)] font-light leading-relaxed mt-2">
                     Structures cohesive corporate visual brand identities, clean layout design systems, and premium vector UI frameworks.
                   </p>

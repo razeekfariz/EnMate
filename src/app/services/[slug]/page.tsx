@@ -42,7 +42,7 @@ export default async function IndividualServicePage({ params }: PageProps) {
 
   if (!service) notFound();
 
-  const whatsappUrl = `https://wa.me/918075186078?text=Hi%20👋,%20I%20want%20to%20consult%20EnMate%20regarding%20${encodeURIComponent(service.title)}.`;
+  const whatsappUrl = `https://wa.me/918075186078?text=${encodeURIComponent(`Hi 👋, I want to consult EnMate regarding ${service.title}.`)}`;
 
   return (
     <div className="min-h-screen bg-[#05030a] text-[var(--text-main)] pt-32 pb-24 font-sans selection:bg-[var(--accent)] selection:text-white">

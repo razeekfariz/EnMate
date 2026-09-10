@@ -7,7 +7,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const toggleMenu = () => setIsMenuOpen(prevState => !prevState);
 
-  const whatsappUrl = "https://wa.me/918075186078?text=Hi%20👋,%20I%20found%20EnMate%20online.%20I%20want%20to%20scale%20our%20business%20with%20the%20best%20digital%20marketing%20services.";
+  const whatsappUrl = `https://wa.me/918075186078?text=${encodeURIComponent("Hi 👋, I found EnMate online. I want to scale our business with the best digital marketing services.")}`;
 
   return (
     <header className="main-header">
@@ -21,6 +21,7 @@ export default function Navbar() {
           <ul className={`nav-menu ${isMenuOpen ? 'active !flex' : 'hidden lg:flex'}`}>
             <li><Link href="/" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
             <li><Link href="/services" onClick={() => setIsMenuOpen(false)}>Services</Link></li>
+            <li><Link href="/ai" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-1"><span className="text-[var(--accent-soft)]">⚡</span> AI</Link></li>
             <li><Link href="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link></li>
             <li><Link href="/portfolio" onClick={() => setIsMenuOpen(false)}>Portfolio</Link></li>
             <li><Link href="/blog" onClick={() => setIsMenuOpen(false)}>Blog</Link></li>

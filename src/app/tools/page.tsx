@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 
 export default function ToolsIndexHub() {
-  const whatsappUrl = "https://wa.me/918075186078?text=Hi%20👋,%20I%20am%20exploring%20EnMate's%20digital%20business%20tools.";
+  const whatsappUrl = `https://wa.me/918075186078?text=${encodeURIComponent("Hi 👋, I am exploring EnMate's digital business tools.")}`;
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {

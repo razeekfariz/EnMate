@@ -91,7 +91,7 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const whatsappUrl = "https://wa.me/918075186078?text=Hi%20👋,%20I%20found%20EnMate%20online.%20I%20want%20to%20scale%20our%20business%20with%20the%20best%20digital%20marketing%20services.";
+  const whatsappUrl = `https://wa.me/918075186078?text=${encodeURIComponent("Hi 👋, I found EnMate online. I want to scale our business with the best digital marketing services.")}`;
 
   return (
     <div className="w-full bg-cover bg-fixed bg-center bg-no-repeat bg-[url('/images/bg-images/home-mobile-bg.webp')] md:bg-[url('/images/bg-images/home-lap-bg.webp')] font-sans selection:bg-[var(--accent)] selection:text-white">

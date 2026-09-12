@@ -25,7 +25,7 @@ export default function Footer() {
         <div className="footer-nav">
           <h6>Core Operations</h6>
           <ul className="footer-links">
-            <li><Link href="/ai" className="text-[var(--accent-soft)] font-semibold">⚡ EnMate AI</Link></li>
+            <li><Link href="/ai" className="text-[var(--accent-soft)] font-semibold">EnMate AI</Link></li>
             <li><Link href="/services">Digital Marketing</Link></li>
             <li><Link href="/services">SEO Optimization</Link></li>
             <li><Link href="/services">Web Architecture</Link></li>

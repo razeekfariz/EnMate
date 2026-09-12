@@ -21,7 +21,7 @@ export default function Navbar() {
           <ul className={`nav-menu ${isMenuOpen ? 'active !flex' : 'hidden lg:flex'}`}>
             <li><Link href="/" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
             <li><Link href="/services" onClick={() => setIsMenuOpen(false)}>Services</Link></li>
-            <li><Link href="/ai" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-1"><span className="text-[var(--accent-soft)]">⚡</span> AI</Link></li>
+            <li><Link href="/ai" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-1"><span className="text-[var(--accent-soft)]"></span> AI</Link></li>
             <li><Link href="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link></li>
             <li><Link href="/portfolio" onClick={() => setIsMenuOpen(false)}>Portfolio</Link></li>
             <li><Link href="/blog" onClick={() => setIsMenuOpen(false)}>Blog</Link></li>

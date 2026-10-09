@@ -56,10 +56,30 @@ export default function DedicatedAIPage() {
       });
   }, []);
 
-  // 3. Auto-scroll chat to bottom
+  // 3. Auto-scroll: When AI replies, scroll smoothly to the BEGINNING / top of the reply message
   useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    if (!chatContainerRef.current) return;
+
+    if (isThinking) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+      return;
+    }
+
+    if (messages.length > 0) {
+      const lastMsg = messages[messages.length - 1];
+      const msgEl = document.getElementById(`msg-item-${lastMsg.id}`);
+
+      if (msgEl && lastMsg.role === 'assistant') {
+        // Scroll to the start/top of the reply message with smooth behavior
+        msgEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (msgEl) {
+        msgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
     }
   }, [messages, isThinking]);
 
@@ -270,7 +290,8 @@ export default function DedicatedAIPage() {
               {messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
+                  id={`msg-item-${msg.id}`}
+                  className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} scroll-mt-6`}
                 >
                   <div className="flex items-center gap-2 mb-1.5 px-1">
                     <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">

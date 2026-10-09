@@ -141,10 +141,26 @@ export default function FloatingAssistant() {
     };
   }, [isDedicatedAiPage, isOpen, isMounted, pathname]);
 
-  // 3. Auto-scroll to bottom of chat
+  // 3. Auto-scroll: When AI replies, scroll smoothly to the BEGINNING / top of the reply message
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+
+    if (isThinking) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    if (messages.length > 0) {
+      const lastMsg = messages[messages.length - 1];
+      const msgEl = document.getElementById(`floating-msg-${lastMsg.id}`);
+
+      if (msgEl && lastMsg.role === 'assistant') {
+        msgEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (msgEl) {
+        msgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   }, [messages, isThinking, isOpen]);
 
@@ -384,7 +400,8 @@ export default function FloatingAssistant() {
               {messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
+                  id={`floating-msg-${msg.id}`}
+                  className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} scroll-mt-4`}
                 >
                   <div
                     className={`max-w-[88%] p-3.5 rounded-2xl ${
